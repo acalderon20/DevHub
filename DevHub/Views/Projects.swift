@@ -8,61 +8,59 @@
 import SwiftUI
 import MapKit
 
-struct Projects: View{
+struct Projects: View {
     @Binding var position: MapCameraPosition
-    
     @Binding var searchResults: [MKMapItem]
-    
-    
-    
-    
-    var body: some View{
-        HStack{
-        Button {
-            search(for: "playgrounds")
-        } label:{
-            Label("Playground", systemImage: "figure.2.and.child.holdinghands")
-        }
-        .buttonStyle(.borderedProminent)
-        
-        Button{
-            search(for: "beach")
-        } label: {
-            Label("Beaches",systemImage: "figure.waterpolo")
-        }
-        .buttonStyle(.borderedProminent)
+    var userLocation: CLLocationCoordinate2D // Assuming this is passed in somehow
+
+    var body: some View {
+        HStack {
+            Button {
+                search(for: "boba", near: userLocation)
+            } label: {
+                Label("boba", systemImage: "waterbottle")
+            }
+            .buttonStyle(.borderedProminent)
             
-            Button{
+            Button {
+                search(for: "ramen", near: userLocation)
+            } label: {
+                Label("ramen", systemImage: "fork.knife")
+            }
+            .buttonStyle(.borderedProminent)
+                
+            Button {
                 position = .region(.chicago)
-            }label: {
-                Label("Chicago",systemImage: "building")
+            } label: {
+                Label("Chicago", systemImage: "building")
             }
             .buttonStyle(.bordered)
-            
-            Button{
+                
+            Button {
                 position = .region(.northShore)
-            }label: {
-                Label("Lake Michigan",systemImage: "water.waves")
+            } label: {
+                Label("Lake Michigan", systemImage: "water.waves")
             }
             .buttonStyle(.bordered)
+        }
+        .labelStyle(.iconOnly)
     }
-    .labelStyle(.iconOnly)
-    }
-    
-func search(for query:String){
-    let request = MKLocalSearch.Request()
-    request.naturalLanguageQuery = query
-    request.resultTypes = .pointOfInterest
-    request.region = MKCoordinateRegion(
-        center: .park,
-    span: MKCoordinateSpan(latitudeDelta: 0.025, longitudeDelta: 0.025))
+
+    func search(for query: String, near location: CLLocationCoordinate2D) {
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = query
+        request.resultTypes = .pointOfInterest
+        request.region = MKCoordinateRegion(
+            center: location,
+            span: MKCoordinateSpan(latitudeDelta: 0.025, longitudeDelta: 0.025)
+        )
         
         Task {
-            let search  = MKLocalSearch(request:request)
+            let search = MKLocalSearch(request: request)
             let response = try? await search.start()
             searchResults = response?.mapItems ?? []
-        
         }
     }
 }
+
 

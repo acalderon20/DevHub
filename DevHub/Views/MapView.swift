@@ -33,26 +33,14 @@ extension MKCoordinateRegion {
 
 struct MapView: View {
     
+    @StateObject private var locationManager = LocationManager() // Add LocationManager as an observed object
+
     @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
     
     @State private var searchResults: [MKMapItem] = []
     
-    
-
     var body: some View {
         Map(position: $position) {
-            Annotation("Milennium Park", coordinate : .park) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 5)
-                        .fill(.background)
-                    RoundedRectangle(cornerRadius: 5)
-                        .stroke(.secondary, lineWidth: 5)
-                    Image(systemName: "figure.stand")
-                        .padding(5)
-                }
-            }
-            .annotationTitles(.hidden)
-            
             ForEach(searchResults, id: \.self) { result in Marker(item:result)
             }
         }
@@ -67,8 +55,11 @@ struct MapView: View {
         
             HStack{
                 Spacer()
-                Projects(position: $position, searchResults: $searchResults)
-                    .padding(.top)
+                if let userLocation = locationManager.userLocation {
+                    Projects(position: $position, searchResults: $searchResults, userLocation: userLocation)
+                } else {
+                    // Handle case where userLocation is nil (e.g., display a message or fallback view)
+                }
                 Spacer()
                 
             }
