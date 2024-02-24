@@ -24,6 +24,7 @@
 		91EF712D2B89A3140026976F /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 91EF712C2B89A3140026976F /* FirebaseFirestoreSwift */; };
 		91EF712F2B89A3140026976F /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 91EF712E2B89A3140026976F /* FirebaseMessaging */; };
 		91EF71312B89A3140026976F /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 91EF71302B89A3140026976F /* FirebaseStorage */; };
+		A8D3463E2B8A4EC700D041BD /* TestDBView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D3463D2B8A4EC700D041BD /* TestDBView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		91EF71202B898E3D0026976F /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		91EF71222B898E490026976F /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		91EF71242B899B990026976F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A8D3463D2B8A4EC700D041BD /* TestDBView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDBView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +166,7 @@
 				91EF70ED2B8985D50026976F /* ContentView.swift */,
 				91EF71202B898E3D0026976F /* LoginView.swift */,
 				91EF71222B898E490026976F /* MapView.swift */,
+				A8D3463D2B8A4EC700D041BD /* TestDBView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -322,6 +325,7 @@
 				91EF71232B898E490026976F /* MapView.swift in Sources */,
 				91EF70EE2B8985D50026976F /* ContentView.swift in Sources */,
 				91EF711B2B89899A0026976F /* ViewModel.swift in Sources */,
+				A8D3463E2B8A4EC700D041BD /* TestDBView.swift in Sources */,
 				91EF71212B898E3E0026976F /* LoginView.swift in Sources */,
 				91EF70EC2B8985D50026976F /* DevHubApp.swift in Sources */,
 			);
