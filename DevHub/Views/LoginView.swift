@@ -8,10 +8,23 @@
 import SwiftUI
 
 struct LoginView: View {
+    @StateObject var authViewModel = AuthViewModel()
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            if authViewModel.isAuthenticated {
+                // User is authenticated, proceed to the main content
+                Text("User is authenticated")
+            } else {
+                // User is not authenticated, show login button
+                Button("Login with GitHub") {
+                    authViewModel.loginWithGitHub()
+                }
+            }
+        }
     }
 }
+
 
 #Preview {
     LoginView()
