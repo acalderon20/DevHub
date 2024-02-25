@@ -7,7 +7,7 @@
 
 import SwiftUI
 import MapKit
-
+import FirebaseFirestore
 
 struct Location: Identifiable {
     let id = UUID()
@@ -20,64 +20,92 @@ struct Location: Identifiable {
 
 
 // Sample locations based on your provided coordinates
-let sampleLocations = [
-    Location(
-        name: "Siebel Center for CS",
-        coordinate: .siebelCenter,
-        projectName: "AI Research Facility",
-        languages: ["Python", "TensorFlow", "Keras"],
-        description: "Developing next-gen AI algorithms for healthcare."
-    ),
-    Location(
-        name: "ECE Building",
-        coordinate: .eceb,
-        projectName: "Hackathon Management System",
-        languages: ["JavaScript", "React", "Node.js"],
-        description: "A web platform to manage hackathon events seamlessly."
-    ),
-    Location(
-        name: "Grainger Engineering Library",
-        coordinate: .graingerLibrary,
-        projectName: "Sports Analytics Platform",
-        languages: ["R", "Shiny", "Python"],
-        description: "Analyzing sports data to enhance team performance metrics."
-    ),
-    Location(
-        name: "Mechanical Engineering Building",
-        coordinate: .mechSEBuilding,
-        projectName: "Sustainable Energy Tracker",
-        languages: ["Swift", "RealityKit", "ARKit"],
-        description: "AR app to visualize and track renewable energy sources."
-    ),
-    Location(
-        name: "Digital Computer Lab",
-        coordinate: .digitalComputerLab,
-        projectName: "Startup Ecosystem Explorer",
-        languages: ["Dart", "Flutter", "Firebase"],
-        description: "Mapping the startup landscape in Silicon Valley."
-    ),
-    Location(
-        name: "Chemistry Annex",
-        coordinate: .chemistryAnnex,
-        projectName: "Interactive Art Platform",
-        languages: ["JavaScript", "Three.js", "WebGL"],
-        description: "Bringing digital art to life through interactive installations."
-    ),
-    Location(
-        name: "Newmark Civil Engineering Lab",
-        coordinate: .newmarkCivilEng,
-        projectName: "Green Building Design Toolkit",
-        languages: ["C#", ".NET", "Blazor"],
-        description: "Software for designing eco-friendly and sustainable buildings."
-    ),
-    Location(
-        name: "Beckman Institute",
-        coordinate: .beckmanInstitute,
-        projectName: "Educational Robotics Curriculum",
-        languages: ["Python", "Arduino", "Raspberry Pi"],
-        description: "Curriculum development for teaching robotics to students."
-    )
-]
+
+func fetchAllDocuments() {
+    let db = Firestore.firestore()
+    
+    db.collection("users").getDocuments { (querySnapshot, err) in
+        if let err = err {
+            print("Error getting documents: \(err)")
+        } else {
+            sampleLocations.removeAll()
+            for document in querySnapshot!.documents {
+                // Assuming document fields match Location properties
+                let name = document.get("name") as? String ?? "No Name"
+                let locationName = document.get("locationName") as? String ?? "No Location Name"
+                let latitude = document.get("Latitude") as? Double ?? 0.0
+                let longitude = document.get("Longitude") as? Double ?? 0.0
+                let languages = document.get("Tags") as? [String] ?? []
+                let description = document.get("description") as? String ?? "No Description"
+                
+                let location = Location(name: locationName, coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), projectName: name, languages: languages, description: description)
+                
+                sampleLocations.append(location)
+            }
+            print(sampleLocations.count)
+        }
+    }
+}
+
+
+var sampleLocations: [Location] = []
+//    Location(
+//        name: "Siebel Center for CS",
+//        coordinate: .siebelCenter,
+//        projectName: "AI Research Facility",
+//        languages: ["Python", "TensorFlow", "Keras"],
+//        description: "Developing next-gen AI algorithms for healthcare."
+//    ),
+//    Location(
+//        name: "ECE Building",
+//        coordinate: .eceb,
+//        projectName: "Hackathon Management System",
+//        languages: ["JavaScript", "React", "Node.js"],
+//        description: "A web platform to manage hackathon events seamlessly."
+//    ),
+//    Location(
+//        name: "Grainger Engineering Library",
+//        coordinate: .graingerLibrary,
+//        projectName: "Sports Analytics Platform",
+//        languages: ["R", "Shiny", "Python"],
+//        description: "Analyzing sports data to enhance team performance metrics."
+//    ),
+//    Location(
+//        name: "Mechanical Engineering Building",
+//        coordinate: .mechSEBuilding,
+//        projectName: "Sustainable Energy Tracker",
+//        languages: ["Swift", "RealityKit", "ARKit"],
+//        description: "AR app to visualize and track renewable energy sources."
+//    ),
+//    Location(
+//        name: "Digital Computer Lab",
+//        coordinate: .digitalComputerLab,
+//        projectName: "Startup Ecosystem Explorer",
+//        languages: ["Dart", "Flutter", "Firebase"],
+//        description: "Mapping the startup landscape in Silicon Valley."
+//    ),
+//    Location(
+//        name: "Chemistry Annex",
+//        coordinate: .chemistryAnnex,
+//        projectName: "Interactive Art Platform",
+//        languages: ["JavaScript", "Three.js", "WebGL"],
+//        description: "Bringing digital art to life through interactive installations."
+//    ),
+//    Location(
+//        name: "Newmark Civil Engineering Lab",
+//        coordinate: .newmarkCivilEng,
+//        projectName: "Green Building Design Toolkit",
+//        languages: ["C#", ".NET", "Blazor"],
+//        description: "Software for designing eco-friendly and sustainable buildings."
+//    ),
+//    Location(
+//        name: "Beckman Institute",
+//        coordinate: .beckmanInstitute,
+//        projectName: "Educational Robotics Curriculum",
+//        languages: ["Python", "Arduino", "Raspberry Pi"],
+//        description: "Curriculum development for teaching robotics to students."
+//    )
+
 
 
 
@@ -148,7 +176,7 @@ struct MapView: View {
     @State private var searchResults: [MKMapItem] = []
     
     @State private var selectedLocation: Location? = nil
-    
+    @EnvironmentObject var sharedDataModel: SharedDataModel
     var body: some View {
         ZStack {
             Map(position: $position) {
@@ -164,6 +192,7 @@ struct MapView: View {
                     Marker(item: result)}
             }
             .onAppear{
+                fetchAllDocuments()
                 CLLocationManager().requestWhenInUseAuthorization()
             }
             .mapControls{
@@ -185,6 +214,10 @@ struct MapView: View {
             }
             .onChange(of: searchResults){
                 position = .automatic
+            }
+            .onChange(of: sharedDataModel.counter)
+            {
+                fetchAllDocuments()
             }
             if let selectedLocation = selectedLocation {
                 CustomPopupView(

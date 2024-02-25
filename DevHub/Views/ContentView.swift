@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var sharedDataModel = SharedDataModel()
     var body: some View {
         TabView {
             MapView()
                 .tabItem {
                     Image(systemName: "map.fill")
                 }
+                .environmentObject(sharedDataModel)
             
             ConversationView()
                 .tabItem {
@@ -24,6 +26,7 @@ struct ContentView: View {
                 .tabItem {
                     Image(systemName: "plus.app")
                 }
+                .environmentObject(sharedDataModel)
             
             ProfileView()
                 .tabItem {

@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseAuth
+import Combine
 import UIKit
 
 class AuthViewModel: ObservableObject {
@@ -19,4 +20,8 @@ class AuthViewModel: ObservableObject {
             isAuthenticated = true
         }
     }
+}
+
+class SharedDataModel: ObservableObject {
+    @Published var counter = 0
 }

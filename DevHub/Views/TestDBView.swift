@@ -15,6 +15,8 @@ struct TestDBView: View {
     @State private var userRepo: String = ""
     @State private var longitude: Int = 0
     @State private var latitude: Int = 0
+    @State private var locationName: String = ""
+    @EnvironmentObject var sharedDataModel: SharedDataModel
     @StateObject private var locationManager = LocationManager()
     
     var projectTags = ["iOS", "Android", "Beginner", "Intermediate", "Advanced", "Web", "Cool", "Not cool"]
@@ -30,6 +32,8 @@ struct TestDBView: View {
             TextField("Description", text: $userDescription, axis: .vertical)
                 .padding()
             TextField("Github Repo Link", text: $userRepo, axis: .vertical)
+                .padding()
+            TextField("Location Name", text: $locationName)
                 .padding()
             
             ScrollView(.horizontal, showsIndicators: false) {
@@ -57,6 +61,8 @@ struct TestDBView: View {
             }
             Button("Add Project") {
                 addUser()
+                sharedDataModel.counter += 1
+                print("Yo \(sharedDataModel.counter)")
             }
             .padding()
         }
@@ -65,16 +71,19 @@ struct TestDBView: View {
     
     func addUser() {
         let db = Firestore.firestore()
-        
-        
+        var long = locationManager.userLocation?.longitude as? Double ?? 0.0
+        var lat = locationManager.userLocation?.latitude as? Double ?? 0.0
+        long = long + Double.random(in: -0.001...0.001)
+        lat = lat + Double.random(in: -0.001...0.001)
         // Create a new user document
         var ref: DocumentReference? = nil
         ref = db.collection("users").addDocument(data: [
             "name": userName,
             "description": userDescription,
             "Github": userRepo,
-            "Longitude": locationManager.userLocation?.longitude,
-            "Latitude": locationManager.userLocation?.latitude,
+            "Longitude": long,
+            "Latitude": lat,
+            "locationName": locationName,
             "Tags": Array(chosenTags)
         ]) { err in
             if let err = err {
@@ -85,6 +94,7 @@ struct TestDBView: View {
                 userName = ""
                 userDescription = ""
                 userRepo = ""
+                locationName = ""
             }
         }
     }
