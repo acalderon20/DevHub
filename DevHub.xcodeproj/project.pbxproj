@@ -57,6 +57,7 @@
 		919400282B8B1C23004E5E25 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		9194002A2B8B2000004E5E25 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		9194002C2B8B203E004E5E25 /* ConversationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationView.swift; sourceTree = "<group>"; };
+		9194002E2B8B35B2004E5E25 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		91EF70E82B8985D50026976F /* DevHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DevHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		91EF70EB2B8985D50026976F /* DevHubApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevHubApp.swift; sourceTree = "<group>"; };
 		91EF70ED2B8985D50026976F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -128,6 +129,7 @@
 		91EF70EA2B8985D50026976F /* DevHub */ = {
 			isa = PBXGroup;
 			children = (
+				9194002E2B8B35B2004E5E25 /* Info.plist */,
 				91EF70EB2B8985D50026976F /* DevHubApp.swift */,
 				91EF71152B8989090026976F /* Models */,
 				91EF71172B8989160026976F /* ViewModels */,
@@ -518,6 +520,7 @@
 				DEVELOPMENT_TEAM = A26R2TGLCH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DevHub/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Enable location to see what other devs are up to!";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -549,6 +552,7 @@
 				DEVELOPMENT_TEAM = A26R2TGLCH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DevHub/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Enable location to see what other devs are up to!";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
