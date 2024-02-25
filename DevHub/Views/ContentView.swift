@@ -15,9 +15,9 @@ struct ContentView: View {
                     Image(systemName: "map.fill")
                 }
             
-            FavoriteButtonView()
+            ConversationView()
                 .tabItem {
-                    Image(systemName: "house.fill")
+                    Image(systemName: "person.line.dotted.person")
                 }
             
             TestDBView()
