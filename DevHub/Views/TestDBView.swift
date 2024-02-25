@@ -20,6 +20,9 @@ struct TestDBView: View {
     @State private var chosenTags = Set<String>()
     var body: some View {
         VStack {
+            Text("Post Project")
+                .padding()
+                .bold()
             TextField("Project Name", text: $userName)
                 .padding()
             TextField("Description", text: $userDescription, axis: .vertical)

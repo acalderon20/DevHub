@@ -16,34 +16,35 @@ struct Projects: View {
     var body: some View {
         HStack {
             Button {
-                search(for: "boba", near: userLocation)
+                search(for: "academic buildings", near: userLocation)
             } label: {
-                Label("boba", systemImage: "waterbottle")
+                Label("academic buildings", systemImage: "graduationcap")
             }
             .buttonStyle(.borderedProminent)
             
             Button {
-                search(for: "ramen", near: userLocation)
+                search(for: "cafes", near: userLocation)
             } label: {
-                Label("ramen", systemImage: "fork.knife")
+                Label("cafe", systemImage: "cup.and.saucer.fill")
             }
             .buttonStyle(.borderedProminent)
                 
             Button {
-                position = .region(.chicago)
+                position = .region(.uiucCampus)
             } label: {
-                Label("Chicago", systemImage: "building")
+                Label("Chicago", systemImage: "building.columns")
             }
-            .buttonStyle(.bordered)
+            .buttonStyle(.borderedProminent)
                 
             Button {
-                position = .region(.northShore)
+                position = .region(.urbanaChampaign)
             } label: {
-                Label("Lake Michigan", systemImage: "water.waves")
+                Label("Lake Michigan", systemImage: "mappin.and.ellipse")
             }
-            .buttonStyle(.bordered)
+            .buttonStyle(.borderedProminent)
         }
         .labelStyle(.iconOnly)
+        .padding()
     }
 
     func search(for query: String, near location: CLLocationCoordinate2D) {
@@ -51,8 +52,8 @@ struct Projects: View {
         request.naturalLanguageQuery = query
         request.resultTypes = .pointOfInterest
         request.region = MKCoordinateRegion(
-            center: location,
-            span: MKCoordinateSpan(latitudeDelta: 0.025, longitudeDelta: 0.025)
+            center: .siebelCenter,
+            span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
         )
         
         Task {
