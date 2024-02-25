@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseFirestore
+import CoreLocation
 
 struct TestDBView: View {
     @State private var userName: String = ""
@@ -14,6 +15,7 @@ struct TestDBView: View {
     @State private var userRepo: String = ""
     @State private var longitude: Int = 0
     @State private var latitude: Int = 0
+    @StateObject private var locationManager = LocationManager()
     
     var projectTags = ["iOS", "Android", "Beginner", "Intermediate", "Advanced", "Web", "Cool", "Not cool"]
     
@@ -71,8 +73,8 @@ struct TestDBView: View {
             "name": userName,
             "description": userDescription,
             "Github": userRepo,
-            "Longitude": longitude,
-            "Latitude": latitude,
+            "Longitude": locationManager.userLocation?.longitude,
+            "Latitude": locationManager.userLocation?.latitude,
             "Tags": Array(chosenTags)
         ]) { err in
             if let err = err {
